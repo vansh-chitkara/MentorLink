@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages - MentorLink</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/premium-ui.css" />
+  <style>
+    body { margin:0; font-family:'Lora', serif; background:linear-gradient(135deg,#F3F4F6,#E5E7EB); color:#1E3A8A; }
+    nav { background:linear-gradient(135deg,#1E3A8A,#1F4ED8); color:#fff; padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; }
+    nav a { color:#fff; text-decoration:none; margin-left:1rem; }
+    .nav-right { display:flex; align-items:center; gap:0.8rem; }
+    .nav-buttons { display:flex; gap:0.7rem; }
+    .btn-nav { padding:0.4rem 0.85rem; border-radius:6px; border:2px solid #fff; color:#fff; text-decoration:none; background:rgba(255,255,255,0.15); font-weight:600; }
+    .btn-nav.btn-signup { background:#fff; color:#1E3A8A; }
+    .nav-user { color:#fff; font-weight:700; }
+    .nav-logout { padding:0.45rem 0.9rem; border-radius:6px; border:2px solid #fff; background:rgba(255,255,255,0.2); color:#fff; cursor:pointer; font-weight:600; display:none; }
+    .nav-logout:hover { background:#fff; color:#1E3A8A; }
+    .container { max-width:1000px; margin:2rem auto; padding:0 1rem; }
+    h1 { font-family:'Bebas Neue', sans-serif; letter-spacing:2px; font-size:2.5rem; margin-bottom:1rem; }
+    .panel { background:#fff; border-radius:12px; padding:1rem; box-shadow:0 8px 22px rgba(25,25,112,0.15); }
+    .row { display:flex; gap:0.75rem; margin-bottom:1rem; flex-wrap:wrap; }
+    .btn { background:linear-gradient(135deg,#1E3A8A,#1F4ED8); color:#fff; border:none; border-radius:8px; padding:0.6rem 1rem; cursor:pointer; }
+    input, select { padding:0.6rem; border-radius:8px; border:1px solid #9CA3AF; }
+    .msg { padding:0.5rem; border-bottom:1px solid #F3F4F6; }
+  </style>
+</head>
+<body class="premium-ui">
+  <nav>
+    <strong>MentorLink</strong>
+    <div class="nav-right">
+      <a href="/">Home</a>
+      <a href="/mentors">Mentors</a>
+      <a href="/dashboard-page">Dashboard</a>
+      <div class="nav-buttons" id="navButtons">
+        <a href="/signup" class="btn-nav">Login</a>
+        <a href="/signup" class="btn-nav btn-signup">Sign Up</a>
+      </div>
+      <div class="nav-user" id="navUser"></div>
+      <button type="button" id="navLogout" class="nav-logout">Logout</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Messages</h1>
+    <div class="panel">
+      <div class="row">
+        <select id="recipient"></select>
+        <button class="btn" onclick="loadThread()">Load Thread</button>
+      </div>
+      <div class="row">
+        <input id="messageInput" style="flex:1" placeholder="Type your message" />
+        <button class="btn" onclick="sendMessage()">Send</button>
+      </div>
+      <div id="thread"></div>
+    </div>
+  </div>
+
+  <script>
+    const demoRecipients = [
+      { _id: 'demo-mentor-1', name: 'Aarav Mehta', hourlyRate: 2500 },
+      { _id: 'demo-mentor-2', name: 'Nisha Kapoor', hourlyRate: 1800 },
+      { _id: 'demo-mentor-3', name: 'Rohan Bhatia', hourlyRate: 3000 },
+      { _id: 'demo-mentor-4', name: 'Simran Gill', hourlyRate: 1500 }
+    ];
+
+    const demoThreads = {
+      'demo-mentor-1': [
+        { sender: 'mentor', message: 'Hey! Happy to help with backend and API architecture.' },
+        { sender: 'you', message: 'Great, I want help structuring my Node project.' },
+        { sender: 'mentor', message: 'Perfect. Start with route-controller-service separation and input validation.' }
+      ],
+      'demo-mentor-2': [
+        { sender: 'mentor', message: 'Hi! Share your frontend repo and I can review the UI flow.' },
+        { sender: 'you', message: 'I need help with responsive cards and spacing consistency.' }
+      ],
+      'demo-mentor-3': [
+        { sender: 'mentor', message: 'Let us build your first ML mini-project plan this week.' },
+        { sender: 'you', message: 'Sounds good. I also need guidance on portfolio projects.' }
+      ],
+      'demo-mentor-4': [
+        { sender: 'mentor', message: 'Happy to assist with interview prep and communication practice.' },
+        { sender: 'you', message: 'Can we do mock HR + technical rounds?' }
+      ]
+    };
+
+    function normalizeNav() {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const userJson = localStorage.getItem('user') || sessionStorage.getItem('user');
+      const navButtons = document.getElementById('navButtons');
+      const navUser = document.getElementById('navUser');
+      const navLogout = document.getElementById('navLogout');
+
+      if (!token) {
+        if (navButtons) navButtons.style.display = 'flex';
+        if (navUser) navUser.textContent = '';
+        if (navLogout) navLogout.style.display = 'none';
+        return;
+      }
+
+      if (!localStorage.getItem('token')) localStorage.setItem('token', token);
+      if (!sessionStorage.getItem('token')) sessionStorage.setItem('token', token);
+      if (userJson && !localStorage.getItem('user')) localStorage.setItem('user', userJson);
+      if (userJson && !sessionStorage.getItem('user')) sessionStorage.setItem('user', userJson);
+
+      let user = null;
+      try { user = userJson ? JSON.parse(userJson) : null; } catch (_) { user = null; }
+      if (navButtons) navButtons.style.display = 'none';
+      if (navUser) navUser.textContent = user && user.name ? user.name : 'My Account';
+      if (navLogout) {
+        navLogout.style.display = 'inline-block';
+        navLogout.onclick = function () {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('user');
+          window.location.replace('/signup');
+        };
+      }
+    }
+
+    function getToken() {
+      return localStorage.getItem('token') || sessionStorage.getItem('token');
+    }
+
+    function authHeaders() {
+      const token = getToken();
+      return { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` };
+    }
+
+    function requireAuth() {
+      const token = getToken();
+      if (!token) {
+        window.location.href = '/signup';
+        return;
+      }
+      if (!localStorage.getItem('token')) localStorage.setItem('token', token);
+      if (!sessionStorage.getItem('token')) sessionStorage.setItem('token', token);
+    }
+
+    function isDemoRecipient(recipientId) {
+      return String(recipientId || '').startsWith('demo-mentor-');
+    }
+
+    function renderThread(messages, otherUserId) {
+      const root = document.getElementById('thread');
+      if (!messages || messages.length === 0) {
+        root.innerHTML = '<div class="msg">No messages yet.</div>';
+        return;
+      }
+
+      root.innerHTML = messages.map((m) => {
+        const sender = typeof m.sender === 'string' ? m.sender : (m.sender && m.sender._id ? m.sender._id : '');
+        const isMentorMsg = sender === otherUserId || sender === 'mentor';
+        return `<div class="msg"><strong>${isMentorMsg ? 'Mentor' : 'You'}:</strong> ${m.message}</div>`;
+      }).join('');
+    }
+
+    function populateRecipientOptions(recipients) {
+      const select = document.getElementById('recipient');
+      select.innerHTML = '<option value="">Select mentor</option>';
+
+      recipients.forEach((m) => {
+        const opt = document.createElement('option');
+        opt.value = m._id;
+        const rateLabel = m.hourlyRate ? `\u20B9${m.hourlyRate}/hr` : 'N/A';
+        opt.textContent = `${m.name} (${rateLabel})`;
+        select.appendChild(opt);
+      });
+
+      if (recipients.length > 0) {
+        select.selectedIndex = 1;
+        loadThread();
+      }
+    }
+
+    async function loadRecipients() {
+      try {
+        const res = await fetch('/api/mentors');
+        const data = await res.json();
+        const recipients = (data.mentors && data.mentors.length > 0) ? data.mentors : demoRecipients;
+        populateRecipientOptions(recipients);
+      } catch (_) {
+        populateRecipientOptions(demoRecipients);
+      }
+    }
+
+    async function loadThread() {
+      const otherUserId = document.getElementById('recipient').value;
+      if (!otherUserId) return;
+
+      if (isDemoRecipient(otherUserId)) {
+        renderThread(demoThreads[otherUserId] || [], otherUserId);
+        return;
+      }
+
+      const res = await fetch(`/api/messages?otherUserId=${encodeURIComponent(otherUserId)}`, { headers: authHeaders() });
+      const data = await res.json();
+      if (!res.ok) {
+        document.getElementById('thread').innerHTML = `<div class="msg">${data.message || 'Failed to load thread'}</div>`;
+        return;
+      }
+      renderThread(data.messages || [], otherUserId);
+    }
+
+    async function sendMessage() {
+      const recipientId = document.getElementById('recipient').value;
+      const message = document.getElementById('messageInput').value.trim();
+      if (!recipientId || !message) return;
+
+      if (isDemoRecipient(recipientId)) {
+        if (!demoThreads[recipientId]) demoThreads[recipientId] = [];
+        demoThreads[recipientId].push({ sender: 'you', message });
+        document.getElementById('messageInput').value = '';
+        renderThread(demoThreads[recipientId], recipientId);
+
+        setTimeout(() => {
+          demoThreads[recipientId].push({ sender: 'mentor', message: 'Great message. Let us continue this in our next session.' });
+          renderThread(demoThreads[recipientId], recipientId);
+        }, 500);
+        return;
+      }
+
+      const res = await fetch('/api/messages', {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({ recipientId, message })
+      });
+      if (res.ok) {
+        document.getElementById('messageInput').value = '';
+        await loadThread();
+      } else {
+        const data = await res.json();
+        alert(data.message || 'Failed to send message');
+      }
+    }
+
+    requireAuth();
+    normalizeNav();
+    loadRecipients();
+  </script>
+  <script src="/js/auth-nav.js"></script>
+</body>
+</html>
+
+
+
+

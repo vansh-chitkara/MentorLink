@@ -1,0 +1,849 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - MentorLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/premium-ui.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+            min-height: 100vh;
+            color: #1E3A8A;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 15px rgba(25, 25, 112, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .btn-nav {
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid white;
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-nav.btn-signup {
+            background: white;
+            color: #1E3A8A;
+        }
+
+        .nav-user {
+            color: white;
+            font-weight: 700;
+            font-family: 'Lora', serif;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .navbar-links a:hover {
+            color: #f8f9fa;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: white;
+            color: #1E3A8A;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .page-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #1E3A8A;
+        }
+
+        .page-header h1 {
+            color: #1E3A8A;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .page-header p {
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-section input,
+        .filter-section select {
+            padding: 0.7rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .filter-section input:focus,
+        .filter-section select:focus {
+            outline: none;
+            border-color: #1E3A8A;
+            box-shadow: 0 0 0 3px rgba(25, 25, 112, 0.1);
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 25, 112, 0.3);
+        }
+
+        /* Mentors Grid */
+        .mentors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Mentor Card */
+        .mentor-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: 0.3s ease;
+            border-top: 4px solid #1E3A8A;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .mentor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-top-color: #1F4ED8;
+        }
+
+        .mentor-header {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            padding: 1.5rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .mentor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #6c757d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            margin: 0 auto 0.5rem;
+            border: 3px solid white;
+        }
+
+        .mentor-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .mentor-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .mentor-role {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .mentor-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .mentor-bio {
+            color: #2f3f4f;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .mentor-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .mentor-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .mentor-rating .stars {
+            color: #ffc107;
+        }
+
+        .mentor-rate {
+            background: #1E3A8A;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .mentor-skills {
+            margin-bottom: 1rem;
+        }
+
+        .mentor-skills-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, #e8eef5 0%, #d4dde8 100%);
+            color: #333;
+            padding: 0.35rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid #c1cad4;
+        }
+
+        .skill-tag.primary {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            color: white;
+            border: none;
+        }
+
+        .mentor-experience {
+            font-size: 0.85rem;
+            color: #2f3f4f;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .mentor-footer {
+            padding-top: 1rem;
+            border-top: 2px solid #f0f0f0;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-connect {
+            flex: 1;
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-connect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 25, 112, 0.3);
+        }
+
+        .btn-profile {
+            flex: 1;
+            background: #F3F4F6;
+            color: #1E3A8A;
+            border: 1px solid #1E3A8A;
+            padding: 0.7rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-profile:hover {
+            background: #E5E7EB;
+            transform: translateY(-2px);
+        }
+
+        .btn-connect i,
+        .btn-profile i {
+            margin-right: 0.35rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .profile-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 15, 30, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 999;
+        }
+
+        .profile-modal-content {
+            width: min(560px, 96vw);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border-top: 5px solid #1E3A8A;
+        }
+
+        .profile-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.2rem;
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            color: white;
+        }
+
+        .profile-modal-header h3 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .profile-close {
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 6px;
+            width: 34px;
+            height: 34px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        .profile-close:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .profile-modal-body {
+            padding: 1rem 1.2rem 1.2rem;
+            color: #233444;
+        }
+
+        .profile-modal-body p {
+            margin-bottom: 0.7rem;
+            line-height: 1.5;
+        }
+
+        .profile-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 0.5rem;
+        }
+
+        .profile-skills span {
+            background: #e9edf3;
+            color: #1b2d40;
+            padding: 0.3rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            border: 1px solid #d2dae4;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 10px;
+            color: #1E3A8A;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #1E3A8A;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h2 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Stats */
+        .mentor-count {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .page-footer {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mentors-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-section {
+                flex-direction: column;
+            }
+
+            .filter-section input,
+            .filter-section select,
+            .btn-search {
+                width: 100%;
+            }
+
+            .navbar-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="premium-ui">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">
+                <i class="fas fa-link"></i>
+                MentorLink
+            </div>
+            <div class="navbar-links" id="navLinks">
+                <a href="/">Home</a>
+                <a href="/mentors">Mentors</a>
+                <a href="/resources">Resources</a>
+                <a href="/dashboard-page">Dashboard</a>
+                <div class="nav-buttons" id="navButtons">
+                    <a href="/signup" class="btn-nav btn-login">Login</a>
+                    <a href="/signup" class="btn-nav btn-signup">Sign Up</a>
+                </div>
+                <button class="btn-logout" id="navLogout" type="button" style="display:none;" onclick="logout()">Logout</button>
+            </div>
+            <div class="nav-user" id="navUser"></div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1><i class="fas fa-users"></i> Find Your Perfect Mentor</h1>
+            <p>Connect with experienced mentors to accelerate your learning journey</p>
+            <div class="mentor-count">
+                <i class="fas fa-chart-pie"></i> <%= mentorCount %> mentors available
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <input type="text" id="searchSkill" placeholder="Search by skill..." />
+            <input type="number" id="maxRate" placeholder="Max hourly rate (INR)" min="0" />
+            <button class="btn-search" onclick="filterMentors()">
+                <i class="fas fa-search"></i> Search
+            </button>
+            <button class="btn-search" onclick="resetFilters()" style="background: #F3F4F6; color: #1E3A8A; border: 1px solid #1E3A8A; gap: 0.5rem; display: flex; align-items: center;">
+                <i class="fas fa-redo"></i> Reset
+            </button>
+        </div>
+
+        <!-- Mentors Grid -->
+        <div class="mentors-grid" id="mentorsContainer">
+            <% if (mentors && mentors.length > 0) { %>
+                <% mentors.forEach(mentor => { %>
+                    <div
+                        class="mentor-card"
+                        data-mentor-id="<%= mentor._id %>"
+                        data-mentor-name="<%= mentor.name %>"
+                        data-mentor-bio="<%= mentor.bio || 'Expert mentor ready to help' %>"
+                        data-mentor-skills="<%= (mentor.skills || []).join(',') %>"
+                        data-mentor-rate="<%= mentor.hourlyRate || '' %>"
+                        data-mentor-experience="<%= mentor.experience || 'N/A' %>"
+                        data-mentor-rating="<%= (mentor.rating || 0).toFixed(1) %>"
+                    >
+                        <div class="mentor-header">
+                            <div class="mentor-avatar">
+                                <% if (mentor.profilePicture) { %>
+                                    <img src="<%= mentor.profilePicture %>" alt="<%= mentor.name %>" />
+                                <% } else { %>
+                                    <i class="fas fa-user"></i>
+                                <% } %>
+                            </div>
+                            <div class="mentor-name"><%= mentor.name %></div>
+                            <div class="mentor-role">Mentor</div>
+                        </div>
+
+                        <div class="mentor-body">
+                            <div class="mentor-bio">
+                                <%= mentor.bio ? mentor.bio.substring(0, 100) + '...' : 'Expert mentor ready to help' %>
+                            </div>
+
+                            <div class="mentor-info">
+                                <div class="mentor-rating">
+                                    <span class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <%= (mentor.rating || 0).toFixed(1) %>
+                                    </span>
+                                </div>
+                                <div class="mentor-rate">
+                                    &#8377;<%= mentor.hourlyRate || 'N/A' %>/hr
+                                </div>
+                            </div>
+
+                            <% if (mentor.experience) { %>
+                                <div class="mentor-experience">
+                                    <i class="fas fa-briefcase"></i>
+                                    <%= mentor.experience %>
+                                </div>
+                            <% } %>
+
+                            <% if (mentor.skills && mentor.skills.length > 0) { %>
+                                <div class="mentor-skills">
+                                    <span class="mentor-skills-label">Skills</span>
+                                    <div class="skills-list">
+                                        <% mentor.skills.slice(0, 3).forEach(skill => { %>
+                                            <span class="skill-tag primary"><%= skill %></span>
+                                        <% }) %>
+                                        <% if (mentor.skills.length > 3) { %>
+                                            <span class="skill-tag">+<%= mentor.skills.length - 3 %> more</span>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            <% } %>
+                        </div>
+
+                        <div class="mentor-footer">
+                            <button class="btn-connect" onclick="connectWithMentor('<%= mentor._id %>', '<%= mentor.name %>')">
+                                <i class="fas fa-handshake"></i> Connect
+                            </button>
+                            <button class="btn-profile" onclick="viewProfile('<%= mentor._id %>')">
+                                <i class="fas fa-eye"></i> View Profile
+                            </button>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <div style="grid-column: 1/-1;">
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h2>No Mentors Found</h2>
+                        <p>Try adjusting your filters or check back later for new mentors</p>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <div id="filterEmptyState" class="empty-state hidden" style="margin-top:1rem;">
+            <i class="fas fa-search"></i>
+            <h2>No Mentors Match Filter</h2>
+            <p>Try a different skill keyword or increase max hourly rate.</p>
+        </div>
+    </div>
+
+    <div id="profileModal" class="profile-modal hidden" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+        <div class="profile-modal-content">
+            <div class="profile-modal-header">
+                <h3 id="profileModalTitle">Mentor Profile</h3>
+                <button class="profile-close" type="button" onclick="closeProfileModal()">&times;</button>
+            </div>
+            <div class="profile-modal-body" id="profileModalBody"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+        <p>&copy; 2026 MentorLink. All rights reserved. Connecting mentors with learners worldwide.</p>
+    </div>
+
+    <script>
+        const mentorsData = <%- JSON.stringify(mentors).replace(/</g, '\\u003c') %>;
+        const mentorsById = new Map((mentorsData || []).map((m) => [String(m._id), m]));
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
+            window.location.replace('/signup');
+        }
+
+        function openProfileModal(mentor) {
+            const modal = document.getElementById('profileModal');
+            const body = document.getElementById('profileModalBody');
+            const skills = (mentor.skills || []).length
+                ? mentor.skills.map((s) => `<span>${s}</span>`).join('')
+                : '<span>N/A</span>';
+
+            body.innerHTML = `
+                <p><strong>Name:</strong> ${mentor.name || 'N/A'}</p>
+                <p><strong>Role:</strong> Mentor</p>
+                <p><strong>Rating:</strong> ${(mentor.avgRating || mentor.rating || 0).toFixed(1)} ${mentor.reviewCount ? `(${mentor.reviewCount} reviews)` : ''}</p>
+                <p><strong>Experience:</strong> ${mentor.experience || 'N/A'}</p>
+                <p><strong>Rate:</strong> \u20B9${mentor.hourlyRate || 'N/A'}/hr</p>
+                <p><strong>Bio:</strong> ${mentor.bio || 'N/A'}</p>
+                <p><strong>Skills:</strong></p>
+                <div class="profile-skills">${skills}</div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        function closeProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function connectWithMentor(mentorId, mentorName) {
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+            if (!token) {
+                alert('Please login first');
+                window.location.href = '/signup';
+                return;
+            }
+
+            if (String(mentorId).startsWith('demo-mentor-')) {
+                alert(`Demo connection request sent to ${mentorName}.`);
+                return;
+            }
+
+            const topic = prompt(`What do you want help with from ${mentorName}?`, 'Career guidance');
+            if (!topic) return;
+            const message = prompt('Write a short request message:', `Hi ${mentorName}, I would like mentorship on ${topic}.`);
+            if (!message) return;
+
+            fetch('/api/mentor-requests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({ mentorId, topic, message })
+            })
+                .then(async (res) => {
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.message || 'Failed to send request');
+                    alert(`Connection request sent to ${mentorName}.`);
+                })
+                .catch((err) => alert(err.message));
+        }
+
+        function viewProfile(mentorId) {
+            const localMentor = mentorsById.get(String(mentorId));
+
+            if (String(mentorId).startsWith('demo-mentor-')) {
+                openProfileModal(localMentor || {
+                    name: 'Demo Mentor',
+                    rating: 0,
+                    experience: 'N/A',
+                    hourlyRate: 'N/A',
+                    bio: 'Demo mentor profile',
+                    skills: []
+                });
+                return;
+            }
+
+            fetch(`/api/mentors/${mentorId}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    if (!data.mentor) {
+                        alert('Mentor profile not available');
+                        return;
+                    }
+                    openProfileModal(data.mentor);
+                })
+                .catch(() => alert('Failed to load mentor profile'));
+        }
+
+        function filterMentors() {
+            const skill = document.getElementById('searchSkill').value.trim().toLowerCase();
+            const rateInput = document.getElementById('maxRate').value;
+            const maxRate = rateInput ? Number(rateInput) : null;
+            const cards = Array.from(document.querySelectorAll('.mentor-card'));
+            const emptyState = document.getElementById('filterEmptyState');
+
+            let visibleCount = 0;
+
+            cards.forEach((card) => {
+                const cardSkills = (card.dataset.mentorSkills || '').toLowerCase();
+                const cardName = (card.dataset.mentorName || '').toLowerCase();
+                const cardRate = Number(card.dataset.mentorRate || 0);
+
+                const matchesSkill = !skill || cardSkills.includes(skill) || cardName.includes(skill);
+                const matchesRate = maxRate === null || (cardRate > 0 && cardRate <= maxRate);
+
+                if (matchesSkill && matchesRate) {
+                    card.classList.remove('hidden');
+                    visibleCount += 1;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            if (emptyState) {
+                if (visibleCount === 0) emptyState.classList.remove('hidden');
+                else emptyState.classList.add('hidden');
+            }
+        }
+
+        function resetFilters() {
+            document.getElementById('searchSkill').value = '';
+            document.getElementById('maxRate').value = '';
+            document.querySelectorAll('.mentor-card').forEach((card) => card.classList.remove('hidden'));
+            const emptyState = document.getElementById('filterEmptyState');
+            if (emptyState) emptyState.classList.add('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('searchSkill').addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') filterMentors();
+            });
+
+            document.getElementById('maxRate').addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') filterMentors();
+            });
+
+            document.getElementById('profileModal').addEventListener('click', function (e) {
+                if (e.target.id === 'profileModal') closeProfileModal();
+            });
+        });
+    </script>
+</body>
+<script src="/js/auth-nav.js"></script>
+</html>
+
+
+

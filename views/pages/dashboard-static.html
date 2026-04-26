@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MentorLink</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/premium-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body class="premium-ui">
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">MentorLink</h1>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/mentors">Mentors</a></li>
+                <li><a href="/resources">Resources</a></li>
+                <li id="navButtons" style="display:none; gap:0.6rem; align-items:center;">
+                    <a href="/signup" class="btn">Login</a>
+                    <a href="/signup" class="btn" style="background:#fff; color:#1E3A8A; border:1px solid #1E3A8A;">Sign Up</a>
+                </li>
+                <li id="navUser" style="color:#fff; font-weight:700;"></li>
+                <li><button id="navLogout" onclick="logout()" class="logout-btn">Logout</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Welcome to MentorLink!</h1>
+            <p id="userGreeting">Your mentorship hub is live. Pick what you want to do next.</p>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="card">
+                <h2>My Profile</h2>
+                <div id="userInfo"></div>
+                <a href="/profile" class="btn">Edit Profile</a>
+            </div>
+
+            <div class="card">
+                <h2>Find a Mentor</h2>
+                <p>Connect with experienced mentors in various fields</p>
+                <a href="/mentors" class="btn">Browse Mentors</a>
+            </div>
+
+            <div class="card">
+                <h2>My Sessions</h2>
+                <p>View and manage your mentorship sessions</p>
+                <a href="/sessions" class="btn">View Sessions</a>
+            </div>
+
+            <div class="card">
+                <h2>Messages</h2>
+                <p>Chat with your mentors and peers</p>
+                <a href="/messages" class="btn">Open Messages</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 MentorLink. All rights reserved.</p>
+    </footer>
+
+    <script>
+        /**
+         * Dashboard JavaScript
+         * Handles user data display and navigation
+         */
+
+        // Check authentication on page load
+        window.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+            const userJson = localStorage.getItem("user") || sessionStorage.getItem("user");
+            if (!token) {
+                const navButtons = document.getElementById("navButtons");
+                const navLogout = document.getElementById("navLogout");
+                if (navButtons) navButtons.style.display = "flex";
+                if (navLogout) navLogout.style.display = "none";
+                window.location.href = "/signup";
+                return;
+            }
+
+            if (!localStorage.getItem("token")) localStorage.setItem("token", token);
+            if (!sessionStorage.getItem("token")) sessionStorage.setItem("token", token);
+            if (userJson && !localStorage.getItem("user")) localStorage.setItem("user", userJson);
+            if (userJson && !sessionStorage.getItem("user")) sessionStorage.setItem("user", userJson);
+
+            const navButtons = document.getElementById("navButtons");
+            const navLogout = document.getElementById("navLogout");
+            const navUser = document.getElementById("navUser");
+            let user = null;
+            try { user = userJson ? JSON.parse(userJson) : null; } catch (_) { user = null; }
+            if (navButtons) navButtons.style.display = "none";
+            if (navLogout) navLogout.style.display = "inline-block";
+            if (navUser) navUser.textContent = user && user.name ? user.name : "My Account";
+
+            displayUserInfo();
+        });
+
+        /**
+         * Display user information on dashboard
+         */
+        function displayUserInfo() {
+            const userJson = localStorage.getItem("user") || sessionStorage.getItem("user");
+            if (!userJson) {
+                document.getElementById("userGreeting").textContent = "Choose an area to continue your progress.";
+                document.getElementById("userInfo").innerHTML = `<p><strong>Profile:</strong> Your details will appear here after account sync.</p>`;
+                return;
+            }
+
+            if (!localStorage.getItem("user")) localStorage.setItem("user", userJson);
+            if (!sessionStorage.getItem("user")) sessionStorage.setItem("user", userJson);
+
+            let user = null;
+            try {
+                user = JSON.parse(userJson);
+            } catch (e) {
+                user = null;
+            }
+
+            if (!user) {
+                document.getElementById("userGreeting").textContent = "Welcome back. Your profile is syncing.";
+                document.getElementById("userInfo").innerHTML = `<p><strong>Profile:</strong> Unable to read profile data right now.</p>`;
+                return;
+            }
+            
+            // Update greeting
+            const displayName = user.name || "there";
+            const role = user.role ? String(user.role).toUpperCase() : "USER";
+            document.getElementById("userGreeting").textContent = `Hello, ${displayName}! Signed in as ${role}.`;
+
+            // Display user info
+            const userInfoDiv = document.getElementById("userInfo");
+            userInfoDiv.innerHTML = `
+                <p><strong>Name:</strong> ${user.name || 'Not available'}</p>
+                <p><strong>Email:</strong> ${user.email || 'Not available'}</p>
+                <p><strong>Role:</strong> ${role}</p>
+            `;
+        }
+
+        /**
+         * Logout function
+         */
+        function logout() {
+            if (confirm("Are you sure you want to logout?")) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                sessionStorage.removeItem("token");
+                sessionStorage.removeItem("user");
+                window.location.replace("/signup");
+            }
+        }
+
+        /**
+         * Make authenticated API call
+         * Usage: apiCall("/api/mentors", "GET")
+         */
+        async function apiCall(endpoint, method = "GET", body = null) {
+            const token = localStorage.getItem("token");
+            
+            const options = {
+                method,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            };
+
+            if (body) {
+                options.body = JSON.stringify(body);
+            }
+
+            const response = await fetch(endpoint, options);
+            return response.json();
+        }
+    </script>
+    <script src="/js/auth-nav.js"></script>
+</body>
+</html>
+
+
+
+

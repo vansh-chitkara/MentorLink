@@ -1,0 +1,440 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About MentorLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/premium-ui.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+            color: #1E3A8A;
+            line-height: 1.6;
+        }
+
+        nav {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 15px rgba(25, 25, 112, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .nav-user {
+            color: white;
+            font-weight: 700;
+            font-family: 'Lora', serif;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-nav {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-login {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .nav-logout {
+            margin-left: 0.8rem;
+            padding: 0.45rem 0.9rem;
+            border: 2px solid white;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .nav-logout:hover {
+            background: white;
+            color: #1E3A8A;
+        }
+
+        .btn-signup {
+            background: white;
+            color: #1E3A8A;
+        }
+
+        .btn-signup:hover {
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .about-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(25, 25, 112, 0.1);
+            border-left: 5px solid #1E3A8A;
+        }
+
+        .about-section h2 {
+            color: #1E3A8A;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .about-section p {
+            color: #1E3A8A;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #9CA3AF;
+            transition: 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            border-color: #1E3A8A;
+        }
+
+        .team-member-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+
+        .team-member h3 {
+            color: #1E3A8A;
+            margin-bottom: 0.5rem;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .team-member p {
+            color: #1E3A8A;
+            font-size: 0.9rem;
+        }
+
+        .values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .value-card {
+            background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-top: 4px solid #1E3A8A;
+        }
+
+        .value-card i {
+            font-size: 2rem;
+            color: #1E3A8A;
+            margin-bottom: 0.5rem;
+        }
+
+        .value-card h3 {
+            color: #1E3A8A;
+            margin-bottom: 0.5rem;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .value-card p {
+            color: #1E3A8A;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1F4ED8 0%, #1E40AF 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            font-family: 'Lora', serif;
+        }
+
+        .footer-text {
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .about-section h2 {
+                font-size: 1.3rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body class="premium-ui">
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-link"></i>
+                MentorLink
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/mentors">Mentors</a></li>
+                <li><a href="/resources">Resources</a></li>
+            </ul>
+            <div class="nav-buttons" id="navButtons">
+                <a href="/signup" class="btn-nav btn-login">Login</a>
+                <a href="/signup" class="btn-nav btn-signup">Sign Up</a>
+            </div>
+            <div class="nav-user" id="navUser"></div>
+            <button class="nav-logout" id="navLogout" style="display:none;" type="button">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>About MentorLink</h1>
+
+        <div class="about-section">
+            <h2><i class="fas fa-lightbulb"></i> Our Vision</h2>
+            <p>
+                To revolutionize learning by connecting students with experienced mentors worldwide. We believe that meaningful relationships between learners and experts accelerate knowledge transfer, skill development, and career growth.
+            </p>
+            <p>
+                MentorLink bridges the gap between educational institutions and industry by providing a platform where practical knowledge meets theoretical learning.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2><i class="fas fa-target"></i> Our Mission</h2>
+            <p>
+                Our mission is to empower students and professionals by providing access to expert mentors who can guide them through their learning journey. We aim to create connections that lead to:
+            </p>
+            <ul style="margin-left: 2rem; color: #1E3A8A;">
+                <li>Accelerated skill development</li>
+                <li>Career advancement opportunities</li>
+                <li>Real-world industry insights</li>
+                <li>Professional networking</li>
+                <li>Personal and intellectual growth</li>
+            </ul>
+        </div>
+
+        <div class="about-section">
+            <h2><i class="fas fa-heart"></i> Our Core Values</h2>
+            <div class="values">
+                <div class="value-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Trust & Integrity</h3>
+                    <p>Building trust between mentors and students through transparent communication and ethical practices.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Continuous Learning</h3>
+                    <p>We believe growth never stops. Both mentors and students are encouraged to keep learning and evolving.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-globe"></i>
+                    <h3>Inclusivity</h3>
+                    <p>Creating opportunities regardless of background, location, or experience level.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Innovation</h3>
+                    <p>Continuously improving our platform to enhance the mentorship experience.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2><i class="fas fa-users"></i> Our Team</h2>
+            <p style="margin-bottom: 2rem;">
+                MentorLink is built by passionate individuals who believe in the power of mentorship and learning.
+            </p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Founder & CEO</h3>
+                    <p>Visionary leader with 10+ years of experience in education technology</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>CTO</h3>
+                    <p>Expert full-stack developer passionate about building scalable platforms</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Community Manager</h3>
+                    <p>Dedicated to fostering meaningful connections between mentors and students</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2><i class="fas fa-star"></i> Why Choose MentorLink?</h2>
+            <ul style="margin-left: 2rem; color: #1E3A8A;">
+                <li><strong>Verified Mentors:</strong> All mentors are vetted and verified</li>
+                <li><strong>Flexible Scheduling:</strong> Book sessions at times convenient for you</li>
+                <li><strong>Real-time Communication:</strong> Instant messaging with mentors</li>
+                <li><strong>Ratings & Reviews:</strong> Transparent feedback system</li>
+                <li><strong>Secure Platform:</strong> Your data is protected with modern encryption</li>
+                <li><strong>Diverse Expertise:</strong> Mentors from various industries and specializations</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-text">
+            <strong>&copy; 2026 MentorLink</strong> - Connecting Mentors with Learners Worldwide
+        </div>
+    </footer>
+</body>
+<script>
+    // Normalize navbar auth state across tabs/pages.
+    (function () {
+        try {
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+            const userJson = localStorage.getItem('user') || sessionStorage.getItem('user');
+            let user = null;
+            try { user = userJson ? JSON.parse(userJson) : null; } catch (_) { user = null; }
+
+            const navButtons = document.getElementById('navButtons');
+            const navUser = document.getElementById('navUser');
+            const navLogout = document.getElementById('navLogout');
+
+            if (!token) {
+                if (navButtons) navButtons.style.display = 'flex';
+                if (navUser) navUser.textContent = '';
+                if (navLogout) navLogout.style.display = 'none';
+                return;
+            }
+
+            if (!localStorage.getItem('token')) localStorage.setItem('token', token);
+            if (!sessionStorage.getItem('token')) sessionStorage.setItem('token', token);
+            if (userJson && !localStorage.getItem('user')) localStorage.setItem('user', userJson);
+            if (userJson && !sessionStorage.getItem('user')) sessionStorage.setItem('user', userJson);
+
+            if (navButtons) navButtons.style.display = 'none';
+            if (navUser) navUser.textContent = user && user.name ? user.name : 'My Account';
+            if (navLogout) {
+                navLogout.style.display = 'inline-block';
+                navLogout.onclick = function () {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    sessionStorage.removeItem('token');
+                    sessionStorage.removeItem('user');
+                    window.location.replace('/signup');
+                };
+            }
+        } catch (e) {
+            // Keep auth state intact if UI rendering fails.
+        }
+    })();
+</script>
+<script src="/js/auth-nav.js"></script>
+</html>
+
+
+
+

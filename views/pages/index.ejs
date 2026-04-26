@@ -1,0 +1,672 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentorLink - Peer-to-Peer Mentorship Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/premium-ui.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+            color: #1E3A8A;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        nav {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 15px rgba(25, 25, 112, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .logout-link {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            margin-left: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .logout-link:hover {
+            background: white;
+            color: #1E3A8A;
+        }
+
+        .nav-user {
+            color: white;
+            font-weight: 700;
+            font-family: 'Lora', serif;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-nav {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-login {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-login:hover {
+            background: white;
+            color: #1E3A8A;
+        }
+
+        .btn-signup {
+            background: white;
+            color: #1E3A8A;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 2rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #1E3A8A;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Lora', serif;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(25, 25, 112, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #1E3A8A;
+            padding: 1rem 2.5rem;
+            border: 2px solid #1E3A8A;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Lora', serif;
+        }
+
+        .btn-secondary:hover {
+            background: #F3F4F6;
+            transform: translateY(-4px);
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 4rem 2rem;
+            margin: 3rem 0;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #1E3A8A;
+            font-weight: 700;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: 0.3s;
+            border: 2px solid #9CA3AF;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(25, 25, 112, 0.2);
+            border-color: #1E3A8A;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #1E3A8A;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1E3A8A;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .feature-card p {
+            color: #1E3A8A;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            color: white;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 4rem 2rem;
+            background: white;
+            margin: 3rem 0;
+        }
+
+        .how-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .step {
+            background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .step h3 {
+            color: #1E3A8A;
+            margin-bottom: 0.5rem;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .step p {
+            color: #1E3A8A;
+        }
+
+        /* Call to Action */
+        .cta {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 3rem 0;
+            border-radius: 10px;
+        }
+
+        .cta-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1F4ED8 0%, #1E40AF 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-text {
+            margin-bottom: 1rem;
+            font-family: 'Lora', serif;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="premium-ui">
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-link"></i>
+                MentorLink
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-buttons" id="navButtons">
+                <a href="/signup" class="btn-nav btn-login">Login</a>
+                <a href="/signup" class="btn-nav btn-signup">Sign Up</a>
+            </div>
+            <div class="nav-user" id="navUser"></div>
+            <button class="logout-link" id="navLogout" style="display:none;" type="button">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>Connect with Mentors. Learn & Grow.</h1>
+        <p>MentorLink is a peer-to-peer mentorship platform where students connect with experienced mentors to learn new skills, share knowledge, and accelerate their professional growth.</p>
+        <div class="hero-buttons">
+            <a href="/mentors" class="btn-primary">Browse Mentors</a>
+            <a href="/mentors" class="btn-secondary" id="getStartedBtn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <h2 class="section-title">Why Choose MentorLink?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Expert Mentors</h3>
+                    <p>Connect with experienced professionals from various industries and skill levels.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Real-Time Chat</h3>
+                    <p>Communicate instantly with your mentors through our real-time messaging system powered by Socket.io.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <h3>Schedule Sessions</h3>
+                    <p>Book one-on-one mentorship sessions at times that work best for you.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Ratings & Reviews</h3>
+                    <p>Leave feedback and ratings to help others find the best mentors for their needs.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Secure & Verified</h3>
+                    <p>All mentors are verified and your data is securely protected with encryption.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Learn & Advance</h3>
+                    <p>Gain practical knowledge from industry experts to accelerate your career growth.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Active Mentors</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">2000+</div>
+                <div class="stat-label">Happy Students</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">5000+</div>
+                <div class="stat-label">Sessions Completed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">4.8&#9733;</div>
+                <div class="stat-label">Average Rating</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how">
+        <div class="how-container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Sign Up</h3>
+                    <p>Create your account as a student or mentor in just a few minutes.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Find Your Match</h3>
+                    <p>Browse profiles of experienced mentors or students and find the perfect fit.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Connect & Learn</h3>
+                    <p>Connect with your mentor, schedule sessions, and start your learning journey.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Share Feedback</h3>
+                    <p>Rate and review to help others and contribute to our community.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2>Ready to Start Your Learning Journey?</h2>
+            <p>Join thousands of students and mentors on MentorLink today</p>
+            <a href="/mentors" class="btn-primary" id="ctaPrimaryBtn">Create Your Account Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-text">
+                <strong>&copy; 2026 MentorLink</strong> - Connecting Mentors with Learners Worldwide
+            </div>
+            <div class="footer-links">
+                <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                <a href="mailto:support@mentorlink.com"><i class="fas fa-envelope"></i> support@mentorlink.com</a>
+            </div>
+        </div>
+    </footer>
+</body>
+<script>
+    // Normalize navbar auth state across tabs/pages.
+    (function () {
+        try {
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+            const userJson = localStorage.getItem('user') || sessionStorage.getItem('user');
+            const getStartedBtn = document.getElementById('getStartedBtn');
+            const ctaPrimaryBtn = document.getElementById('ctaPrimaryBtn');
+            const navButtons = document.getElementById('navButtons');
+            const navUser = document.getElementById('navUser');
+            const navLogout = document.getElementById('navLogout');
+
+            if (!token) {
+                if (navButtons) navButtons.style.display = 'flex';
+                if (navUser) navUser.textContent = '';
+                if (navLogout) navLogout.style.display = 'none';
+                if (getStartedBtn) getStartedBtn.href = '/mentors';
+                if (ctaPrimaryBtn) ctaPrimaryBtn.href = '/signup';
+                return;
+            }
+
+            // Keep both storage locations aligned so pages read the same state.
+            if (!localStorage.getItem('token')) localStorage.setItem('token', token);
+            if (!sessionStorage.getItem('token')) sessionStorage.setItem('token', token);
+            if (userJson && !localStorage.getItem('user')) localStorage.setItem('user', userJson);
+            if (userJson && !sessionStorage.getItem('user')) sessionStorage.setItem('user', userJson);
+
+            let user = null;
+            try {
+                user = userJson ? JSON.parse(userJson) : null;
+            } catch (_) {
+                user = null;
+            }
+
+            if (navButtons) navButtons.style.display = 'none';
+            if (navUser) navUser.textContent = user && user.name ? user.name : 'My Account';
+            if (navLogout) {
+                navLogout.style.display = 'inline-block';
+                navLogout.onclick = function () {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    sessionStorage.removeItem('token');
+                    sessionStorage.removeItem('user');
+                    window.location.replace('/signup');
+                };
+            }
+            if (getStartedBtn) getStartedBtn.href = '/dashboard-page';
+            if (ctaPrimaryBtn) ctaPrimaryBtn.href = '/dashboard-page';
+        } catch (e) {
+            // Keep auth state intact if UI rendering fails.
+        }
+    })();
+</script>
+<script src="/js/auth-nav.js"></script>
+</html>
+
+
+

@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile - MentorLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/premium-ui.css" />
+  <style>
+    body { margin:0; font-family:'Lora', serif; background:linear-gradient(135deg,#F3F4F6,#E5E7EB); color:#1E3A8A; }
+    nav { background:linear-gradient(135deg,#1E3A8A,#1F4ED8); color:#fff; padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; }
+    nav a { color:#fff; text-decoration:none; margin-left:1rem; }
+    .nav-right { display:flex; align-items:center; gap:0.8rem; }
+    .nav-buttons { display:flex; gap:0.7rem; }
+    .btn-nav { padding:0.4rem 0.85rem; border-radius:6px; border:2px solid #fff; color:#fff; text-decoration:none; background:rgba(255,255,255,0.15); font-weight:600; }
+    .btn-nav.btn-signup { background:#fff; color:#1E3A8A; }
+    .nav-user { color:#fff; font-weight:700; }
+    .nav-logout { padding:0.45rem 0.9rem; border-radius:6px; border:2px solid #fff; background:rgba(255,255,255,0.2); color:#fff; cursor:pointer; font-weight:600; display:none; }
+    .nav-logout:hover { background:#fff; color:#1E3A8A; }
+    .container { max-width:900px; margin:2rem auto; padding:0 1rem; }
+    h1 { font-family:'Bebas Neue', sans-serif; letter-spacing:2px; font-size:2.5rem; margin-bottom:1rem; }
+    .card { background:#fff; border-radius:12px; padding:1.2rem; box-shadow:0 8px 22px rgba(25,25,112,0.15); }
+    label { display:block; margin-top:0.8rem; font-weight:600; }
+    input, textarea { width:100%; padding:0.7rem; border-radius:8px; border:1px solid #9CA3AF; margin-top:0.3rem; }
+    button { margin-top:1rem; background:linear-gradient(135deg,#1E3A8A,#1F4ED8); color:#fff; border:none; padding:0.7rem 1rem; border-radius:8px; cursor:pointer; }
+    .msg { margin-top:0.8rem; font-weight:600; }
+  </style>
+</head>
+<body class="premium-ui">
+  <nav>
+    <strong>MentorLink</strong>
+    <div class="nav-right">
+      <a href="/">Home</a>
+      <a href="/dashboard-page">Dashboard</a>
+      <a href="/mentors">Mentors</a>
+      <div class="nav-buttons" id="navButtons">
+        <a href="/signup" class="btn-nav">Login</a>
+        <a href="/signup" class="btn-nav btn-signup">Sign Up</a>
+      </div>
+      <div class="nav-user" id="navUser"></div>
+      <button type="button" id="navLogout" class="nav-logout">Logout</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>My Profile</h1>
+    <div class="card">
+      <form id="profileForm">
+        <label>Name</label>
+        <input id="name" disabled />
+
+        <label>Email</label>
+        <input id="email" disabled />
+
+        <label>Bio</label>
+        <textarea id="bio" rows="3" placeholder="Tell mentors/students about yourself"></textarea>
+
+        <label>Skills (comma separated)</label>
+        <input id="skills" placeholder="JavaScript, Node.js, React" />
+
+        <label>Hourly Rate (for mentors)</label>
+        <input id="hourlyRate" type="number" min="0" />
+
+        <label>Experience</label>
+        <input id="experience" placeholder="3 years" />
+
+        <button type="submit">Save Profile</button>
+        <div class="msg" id="message"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function normalizeNav() {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const userJson = localStorage.getItem('user') || sessionStorage.getItem('user');
+      const navButtons = document.getElementById('navButtons');
+      const navUser = document.getElementById('navUser');
+      const navLogout = document.getElementById('navLogout');
+
+      if (!token) {
+        if (navButtons) navButtons.style.display = 'flex';
+        if (navUser) navUser.textContent = '';
+        if (navLogout) navLogout.style.display = 'none';
+        return;
+      }
+
+      if (!localStorage.getItem('token')) localStorage.setItem('token', token);
+      if (!sessionStorage.getItem('token')) sessionStorage.setItem('token', token);
+      if (userJson && !localStorage.getItem('user')) localStorage.setItem('user', userJson);
+      if (userJson && !sessionStorage.getItem('user')) sessionStorage.setItem('user', userJson);
+
+      let user = null;
+      try { user = userJson ? JSON.parse(userJson) : null; } catch (_) { user = null; }
+      if (navButtons) navButtons.style.display = 'none';
+      if (navUser) navUser.textContent = user && user.name ? user.name : 'My Account';
+      if (navLogout) {
+        navLogout.style.display = 'inline-block';
+        navLogout.onclick = function () {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('user');
+          window.location.replace('/signup');
+        };
+      }
+    }
+
+    function requireAuth() {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const userJson = localStorage.getItem('user') || sessionStorage.getItem('user');
+      if (!token) {
+        window.location.href = '/signup';
+        return null;
+      }
+      if (!localStorage.getItem('token')) localStorage.setItem('token', token);
+      if (!sessionStorage.getItem('token')) sessionStorage.setItem('token', token);
+
+      let user = null;
+      try {
+        user = userJson ? JSON.parse(userJson) : null;
+      } catch (_) {
+        user = null;
+      }
+
+      if (userJson && !localStorage.getItem('user')) localStorage.setItem('user', userJson);
+      if (userJson && !sessionStorage.getItem('user')) sessionStorage.setItem('user', userJson);
+
+      return { token, user };
+    }
+
+    function fillUser() {
+      const auth = requireAuth();
+      if (!auth) return;
+      document.getElementById('name').value = auth.user && auth.user.name ? auth.user.name : '';
+      document.getElementById('email').value = auth.user && auth.user.email ? auth.user.email : '';
+    }
+
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const auth = requireAuth();
+      if (!auth) return;
+
+      const payload = {
+        bio: document.getElementById('bio').value.trim(),
+        skills: document.getElementById('skills').value.split(',').map((s) => s.trim()).filter(Boolean),
+        hourlyRate: Number(document.getElementById('hourlyRate').value || 0),
+        experience: document.getElementById('experience').value.trim(),
+      };
+
+      const res = await fetch('/api/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      const msg = document.getElementById('message');
+
+      if (res.ok) {
+        msg.textContent = 'Profile updated successfully.';
+        msg.style.color = '#1F4ED8';
+      } else {
+        msg.textContent = data.message || 'Failed to update profile.';
+        msg.style.color = '#8b0000';
+      }
+    });
+
+    normalizeNav();
+    fillUser();
+  </script>
+  <script src="/js/auth-nav.js"></script>
+</body>
+</html>
+
+
+
+
