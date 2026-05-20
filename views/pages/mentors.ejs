@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,7 @@
             color: #1E3A8A;
         }
 
-        /* Navigation */
+        
         .navbar {
             background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
             padding: 1rem 2rem;
@@ -111,14 +111,14 @@
             color: #1E3A8A;
         }
 
-        /* Container */
+        
         .container {
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
 
-        /* Header */
+        
         .page-header {
             background: white;
             padding: 2rem;
@@ -139,7 +139,7 @@
             margin-bottom: 1rem;
         }
 
-        /* Filter Section */
+        
         .filter-section {
             background: white;
             padding: 1.5rem;
@@ -184,7 +184,7 @@
             box-shadow: 0 4px 12px rgba(25, 25, 112, 0.3);
         }
 
-        /* Mentors Grid */
+        
         .mentors-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -192,7 +192,7 @@
             margin-bottom: 2rem;
         }
 
-        /* Mentor Card */
+        
         .mentor-card {
             background: white;
             border-radius: 10px;
@@ -471,7 +471,7 @@
             border: 1px solid #d2dae4;
         }
 
-        /* Empty State */
+        
         .empty-state {
             text-align: center;
             padding: 3rem;
@@ -491,7 +491,7 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Stats */
+        
         .mentor-count {
             background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
             color: white;
@@ -502,7 +502,7 @@
             font-weight: 600;
         }
 
-        /* Footer */
+        
         .page-footer {
             text-align: center;
             padding: 2rem;
@@ -510,7 +510,7 @@
             margin-top: 3rem;
         }
 
-        /* Responsive */
+        
         @media (max-width: 768px) {
             .mentors-grid {
                 grid-template-columns: 1fr;
@@ -538,7 +538,7 @@
     </style>
 </head>
 <body class="premium-ui">
-    <!-- Navigation -->
+    
     <nav class="navbar">
         <div class="navbar-content">
             <div class="navbar-brand">
@@ -560,9 +560,9 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    
     <div class="container">
-        <!-- Header -->
+        
         <div class="page-header">
             <h1><i class="fas fa-users"></i> Find Your Perfect Mentor</h1>
             <p>Connect with experienced mentors to accelerate your learning journey</p>
@@ -571,7 +571,7 @@
             </div>
         </div>
 
-        <!-- Filter Section -->
+        
         <div class="filter-section">
             <input type="text" id="searchSkill" placeholder="Search by skill..." />
             <input type="number" id="maxRate" placeholder="Max hourly rate (INR)" min="0" />
@@ -583,7 +583,7 @@
             </button>
         </div>
 
-        <!-- Mentors Grid -->
+        
         <div class="mentors-grid" id="mentorsContainer">
             <% if (mentors && mentors.length > 0) { %>
                 <% mentors.forEach(mentor => { %>
@@ -685,7 +685,7 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    
     <div class="page-footer">
         <p>&copy; 2026 MentorLink. All rights reserved. Connecting mentors with learners worldwide.</p>
     </div>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -296,7 +296,7 @@
     </style>
 </head>
 <body class="premium-ui">
-    <!-- Navigation -->
+    
     <nav>
         <div class="nav-container">
             <div class="logo">
@@ -317,7 +317,7 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    
     <div class="container">
         <h1>Learning Resources</h1>
 
@@ -327,7 +327,7 @@
             </p>
         </div>
 
-        <!-- Resource Categories -->
+        
         <h2 style="text-align: center; font-size: 2rem; color: #1E3A8A; margin-bottom: 2rem; font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px;">
             <i class="fas fa-folder-open"></i> Resource Categories
         </h2>
@@ -382,7 +382,7 @@
             </div>
         </div>
 
-        <!-- Featured Resources -->
+        
         <h2 style="text-align: center; font-size: 2rem; color: #1E3A8A; margin-bottom: 2rem; margin-top: 3rem; font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px;">
             <i class="fas fa-star"></i> Featured Resources
         </h2>
@@ -491,7 +491,7 @@
             </div>
         </div>
 
-        <!-- Call to Action -->
+        
         <div style="background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%); color: white; padding: 2rem; border-radius: 10px; text-align: center; margin-top: 3rem;">
             <h2 style="margin-bottom: 1rem;">More Resources Coming Soon</h2>
             <p style="margin-bottom: 1rem;">We're constantly adding new resources. Get connected with a mentor for personalized guidance!</p>
@@ -501,13 +501,12 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    
     <footer>
         <strong>&copy; 2026 MentorLink</strong> - Learning Resources & Mentorship Hub
     </footer>
 </body>
 <script>
-    // Normalize navbar auth state across tabs/pages.
     (function () {
         try {
             const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -544,7 +543,6 @@
                 };
             }
         } catch (e) {
-            // Keep auth state intact if UI rendering fails.
         }
     })();
 </script>

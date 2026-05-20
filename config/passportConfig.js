@@ -15,23 +15,6 @@ const getJwtSecret = () => {
     return secret;
 };
 
-/**
- * Passport Configuration
- * 
- * WHAT IS PASSPORT?
- * - Authentication middleware for Node.js
- * - Supports multiple strategies (local, JWT, OAuth, etc.)
- * 
- * STRATEGIES USED:
- * 1. Local Strategy: Email + Password login
- * 2. JWT Strategy: Token-based authentication for API routes
- */
-
-/**
- * LOCAL STRATEGY
- * Used for login/registration with email and password
- * Compares plaintext password with hashed password in database
- */
 passport.use(
     new LocalStrategy(
         {
@@ -40,14 +23,11 @@ passport.use(
         },
         async (email, password, done) => {
             try {
-                // Find user by email
                 const user = await User.findOne({ email }).select("+password");
 
                 if (!user) {
                     return done(null, false, { message: "User not found" });
                 }
-
-                // Compare password with hashed password
                 const isPasswordValid = await user.comparePassword(password);
 
                 if (!isPasswordValid) {
@@ -62,21 +42,15 @@ passport.use(
     )
 );
 
-/**
- * JWT STRATEGY
- * Used to verify JWT tokens from Authorization header
- * Protects routes that require authentication
- */
+
 passport.use(
     new JWTStrategy(
         {
-            // Extract JWT from Authorization header: "Bearer <token>"
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: getJwtSecret()
         },
         async (jwtPayload, done) => {
             try {
-                // Find user by ID from token payload
                 const user = await User.findById(jwtPayload.id);
 
                 if (!user) {
@@ -91,10 +65,7 @@ passport.use(
     )
 );
 
-/**
- * GOOGLE OAUTH STRATEGY (optional)
- * Only registers if GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are set.
- */
+
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     passport.use(
         new GoogleStrategy(
@@ -115,7 +86,6 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
                     let user = await User.findOne({ email });
 
                     if (!user) {
-                        // Create a user with a random password (not used for Google sign-in)
                         const randomPassword = crypto.randomBytes(16).toString("hex");
                         user = await User.create({
                             name,

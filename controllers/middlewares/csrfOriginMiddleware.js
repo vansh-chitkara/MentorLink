@@ -4,8 +4,6 @@ const csrfOriginMiddleware = (req, res, next) => {
   if (!stateChangingMethods.has(req.method)) {
     return next();
   }
-
-  // Bearer-token API clients are not cookie-based and are less CSRF-prone.
   if (req.headers.authorization?.startsWith("Bearer ")) {
     return next();
   }

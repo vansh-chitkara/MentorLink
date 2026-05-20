@@ -9,8 +9,6 @@ const isEmailServiceConfigured = () => {
   if (!emailUser || !emailPass) {
     return false;
   }
-
-  // Ignore common template placeholders from default .env values.
   if (
     emailUser.toLowerCase().includes("your_email") ||
     emailPass.toLowerCase().includes("your_email_password")

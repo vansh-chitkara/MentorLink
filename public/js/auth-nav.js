@@ -78,6 +78,5 @@
       navLogout.onclick = doLogout;
     }
   } catch (_) {
-    // Keep page usable even if auth nav script fails.
   }
 })();

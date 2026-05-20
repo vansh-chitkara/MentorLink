@@ -92,10 +92,7 @@ const mergeMentorsWithDemo = (dbMentors, options = {}) => {
     return [...dbList, ...uniqueDemoMentors];
 };
 
-/**
- * PAGE CONTROLLERS
- * Render HTML pages with EJS template engine (SSR - Server-Side Rendering)
- */
+
 
 exports.homePage = (req, res) => {
     res.render("pages/index", { title: "MentorLink - Home" });
@@ -114,7 +111,6 @@ exports.dashboardPage = (req, res) => {
 
 exports.mentorsPage = async (req, res, next) => {
     try {
-        // Fetch all active mentors from database
         const dbMentors = await User.find({ role: "mentor", isActive: true })
             .select("name bio skills hourlyRate experience profilePicture rating")
             .lean();
@@ -151,16 +147,11 @@ exports.messagesPage = (req, res) => {
     res.render("pages/messages", { title: "Messages" });
 };
 
-/**
- * AUTHENTICATION ENDPOINTS
- * Register and Login with JWT
- */
+
 
 exports.register = async (req, res, next) => {
     try {
         const { name, email, password, role } = req.body;
-
-        // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({
@@ -168,16 +159,12 @@ exports.register = async (req, res, next) => {
                 message: "Email already registered"
             });
         }
-
-        // Create new user
         const user = await User.create({
             name,
             email,
             password,
             role: role || "student"
         });
-
-        // Generate JWT token
         const token = generateToken(user._id);
 
         res.status(201).json({
@@ -206,8 +193,6 @@ exports.login = async (req, res, next) => {
                 message: "Please provide email and password"
             });
         }
-
-        // Find user and select password field
         const user = await User.findOne({ email }).select("+password");
 
         if (!user) {
@@ -216,8 +201,6 @@ exports.login = async (req, res, next) => {
                 message: "Invalid credentials"
             });
         }
-
-        // Compare passwords
         const isPasswordValid = await user.comparePassword(password);
 
         if (!isPasswordValid) {
@@ -226,8 +209,6 @@ exports.login = async (req, res, next) => {
                 message: "Invalid credentials"
             });
         }
-
-        // Generate JWT token
         const token = generateToken(user._id);
 
         res.status(200).json({
@@ -399,10 +380,7 @@ exports.resetPassword = async (req, res, next) => {
     }
 };
 
-/**
- * GOOGLE AUTH CALLBACK
- * Generates JWT and pushes it to localStorage via a tiny HTML bridge
- */
+
 exports.googleAuth = (req, res, next) => {
     if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
         return res.redirect("/signup?error=google_not_configured");
@@ -456,16 +434,11 @@ exports.googleCallback = (req, res) => {
         </body></html>`);
 };
 
-/**
- * MENTOR ENDPOINTS
- * Get, update, and manage mentor profiles
- */
+
 
 exports.getMentors = async (req, res, next) => {
     try {
         const { skill, hourlyRate } = req.query;
-
-        // Build filter
         let filter = { role: "mentor", isActive: true };
 
         if (skill) {
@@ -475,8 +448,6 @@ exports.getMentors = async (req, res, next) => {
         if (hourlyRate) {
             filter.hourlyRate = { $lte: parseInt(hourlyRate) };
         }
-
-        // Get mentors from database
         const dbMentors = await User.find(filter).select(
             "name bio skills hourlyRate experience profilePicture"
         );
@@ -503,8 +474,6 @@ exports.getMentorById = async (req, res, next) => {
                 message: "Mentor not found"
             });
         }
-
-        // Get mentor's average rating
         const feedbacks = await Feedback.find({ mentor: mentor._id });
         const avgRating = feedbacks.length > 0
             ? feedbacks.reduce((sum, f) => sum + f.rating, 0) / feedbacks.length
@@ -561,11 +530,7 @@ exports.uploadProfilePicture = async (req, res, next) => {
         }
 
         const userId = req.userId;
-
-        // Upload to Cloudinary
         const result = await uploadToCloudinary(req.file.path, "mentorlink/profiles");
-
-        // Update user with profile picture URL
         const user = await User.findByIdAndUpdate(
             userId,
             { profilePicture: result.secure_url },
@@ -583,17 +548,12 @@ exports.uploadProfilePicture = async (req, res, next) => {
     }
 };
 
-/**
- * SESSION ENDPOINTS
- * Book, manage, and complete mentorship sessions
- */
+
 
 exports.bookSession = async (req, res, next) => {
     try {
         const { mentorId, title, description, scheduledDate, duration } = req.body;
         const studentId = req.userId;
-
-        // Validate mentor exists
         const mentor = await User.findById(mentorId);
         if (!mentor) {
             return res.status(404).json({
@@ -601,8 +561,6 @@ exports.bookSession = async (req, res, next) => {
                 message: "Mentor not found"
             });
         }
-
-        // Create session
         const session = await Session.create({
             student: studentId,
             mentor: mentorId,
@@ -611,8 +569,6 @@ exports.bookSession = async (req, res, next) => {
             scheduledDate,
             duration: duration || 60
         });
-
-        // Emit real-time notification
         req.app.get("io").emit("session-booked", {
             mentorId,
             session
@@ -686,17 +642,12 @@ exports.updateSessionStatus = async (req, res, next) => {
     }
 };
 
-/**
- * MENTOR REQUEST ENDPOINTS
- * Create and manage mentor connection requests
- */
+
 
 exports.createMentorRequest = async (req, res, next) => {
     try {
         const { mentorId, topic, message } = req.body;
         const studentId = req.userId;
-
-        // Prevent duplicate requests
         const existingRequest = await MentorRequest.findOne({
             student: studentId,
             mentor: mentorId,
@@ -716,8 +667,6 @@ exports.createMentorRequest = async (req, res, next) => {
             topic,
             message
         });
-
-        // Emit real-time notification
         req.app.get("io").emit("mentor-request", {
             mentorId,
             request
@@ -778,10 +727,7 @@ exports.respondToRequest = async (req, res, next) => {
     }
 };
 
-/**
- * MESSAGING ENDPOINTS
- * Send and retrieve messages between users
- */
+
 
 exports.sendMessage = async (req, res, next) => {
     try {
@@ -793,8 +739,6 @@ exports.sendMessage = async (req, res, next) => {
             recipient: recipientId,
             message
         });
-
-        // Emit real-time message
         req.app.get("io").to(`user-${recipientId}`).emit("new-message", {
             sender: senderId,
             message: msg.message,
@@ -840,10 +784,7 @@ exports.getMessages = async (req, res, next) => {
     }
 };
 
-/**
- * FEEDBACK ENDPOINTS
- * Submit and retrieve mentor reviews
- */
+
 
 exports.submitFeedback = async (req, res, next) => {
     try {
@@ -888,10 +829,7 @@ exports.getMentorFeedback = async (req, res, next) => {
     }
 };
 
-/**
- * STATS ENDPOINTS
- * Get platform statistics
- */
+
 
 exports.getStats = async (req, res, next) => {
     try {
@@ -925,16 +863,11 @@ exports.getStats = async (req, res, next) => {
     }
 };
 
-/**
- * ACTIVITY ENDPOINTS
- * Track platform activities
- */
+
 
 exports.getActivities = async (req, res, next) => {
     try {
         const activities = [];
-
-        // Recent sessions
         const recentSessions = await Session.find()
             .limit(5)
             .sort({ createdAt: -1 })
@@ -947,8 +880,6 @@ exports.getActivities = async (req, res, next) => {
                 timestamp: session.createdAt
             });
         });
-
-        // Recent feedbacks
         const recentFeedbacks = await Feedback.find()
             .limit(5)
             .sort({ createdAt: -1 })

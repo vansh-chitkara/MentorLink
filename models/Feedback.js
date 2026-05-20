@@ -1,15 +1,5 @@
 const mongoose = require("mongoose");
 
-/**
- * Feedback Schema
- * Stores ratings and reviews from students about mentors
- * 
- * KEY FEATURES:
- * - Rating system (1-5 stars)
- * - Text feedback
- * - Prevents duplicate reviews from same student for same mentor
- */
-
 const feedbackSchema = new mongoose.Schema(
     {
         student: {
@@ -41,8 +31,6 @@ const feedbackSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
-
-// Prevent duplicate reviews for same student-mentor pair
 feedbackSchema.index({ student: 1, mentor: 1 }, { unique: true });
 feedbackSchema.index({ mentor: 1, createdAt: -1 });
 

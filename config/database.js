@@ -1,17 +1,6 @@
 const mongoose = require("mongoose");
 const logger = require("./logger");
 
-/**
- * Database Connection Configuration
- * This module handles the connection to MongoDB using Mongoose
- * 
- * WHY MONGOOSE?
- * - Provides schema validation
- * - Built-in data types and validators
- * - Easier to manage relationships between collections
- * - Middleware hooks (pre/post operations)
- */
-
 const connectDB = async () => {
     try {
         if (!process.env.MONGODB_URI) {

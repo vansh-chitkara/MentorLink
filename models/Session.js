@@ -1,15 +1,5 @@
 const mongoose = require("mongoose");
 
-/**
- * Session Schema
- * Stores mentorship session bookings between students and mentors
- * 
- * KEY FEATURES:
- * - Tracks status of session (pending, confirmed, completed, cancelled)
- * - Stores session timing and notes
- * - References User model for relationships
- */
-
 const sessionSchema = new mongoose.Schema(
     {
         student: {

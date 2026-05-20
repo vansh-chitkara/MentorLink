@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,7 @@
             line-height: 1.6;
         }
 
-        /* Navbar */
+        
         nav {
             background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
             padding: 1rem 2rem;
@@ -128,7 +128,7 @@
             box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
         }
 
-        /* Hero Section */
+        
         .hero {
             padding: 5rem 2rem;
             text-align: center;
@@ -206,7 +206,7 @@
             transform: translateY(-4px);
         }
 
-        /* Features Section */
+        
         .features {
             background: white;
             padding: 4rem 2rem;
@@ -266,7 +266,7 @@
             color: #1E3A8A;
         }
 
-        /* Stats Section */
+        
         .stats {
             background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
             color: white;
@@ -298,7 +298,7 @@
             opacity: 0.9;
         }
 
-        /* How It Works */
+        
         .how-it-works {
             padding: 4rem 2rem;
             background: white;
@@ -350,7 +350,7 @@
             color: #1E3A8A;
         }
 
-        /* Call to Action */
+        
         .cta {
             background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
             color: white;
@@ -378,7 +378,7 @@
             opacity: 0.95;
         }
 
-        /* Footer */
+        
         footer {
             background: linear-gradient(135deg, #1F4ED8 0%, #1E40AF 100%);
             color: white;
@@ -415,7 +415,7 @@
         }
 
 
-        /* Responsive */
+        
         @media (max-width: 768px) {
             .nav-links {
                 gap: 1rem;
@@ -445,7 +445,7 @@
     </style>
 </head>
 <body class="premium-ui">
-    <!-- Navigation -->
+    
     <nav>
         <div class="nav-container">
             <div class="logo">
@@ -467,7 +467,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    
     <section class="hero" id="home">
         <h1>Connect with Mentors. Learn & Grow.</h1>
         <p>MentorLink is a peer-to-peer mentorship platform where students connect with experienced mentors to learn new skills, share knowledge, and accelerate their professional growth.</p>
@@ -477,7 +477,7 @@
         </div>
     </section>
 
-    <!-- Features Section -->
+    
     <section class="features" id="features">
         <div class="features-container">
             <h2 class="section-title">Why Choose MentorLink?</h2>
@@ -533,7 +533,7 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
+    
     <section class="stats">
         <div class="stats-container">
             <div class="stat">
@@ -555,7 +555,7 @@
         </div>
     </section>
 
-    <!-- How It Works -->
+    
     <section class="how-it-works" id="how">
         <div class="how-container">
             <h2 class="section-title">How It Works</h2>
@@ -587,7 +587,7 @@
         </div>
     </section>
 
-    <!-- Call to Action -->
+    
     <section class="cta">
         <div class="cta-container">
             <h2>Ready to Start Your Learning Journey?</h2>
@@ -596,7 +596,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    
     <footer id="contact">
         <div class="footer-content">
             <div class="footer-text">
@@ -613,7 +613,6 @@
     </footer>
 </body>
 <script>
-    // Normalize navbar auth state across tabs/pages.
     (function () {
         try {
             const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -632,8 +631,6 @@
                 if (ctaPrimaryBtn) ctaPrimaryBtn.href = '/signup';
                 return;
             }
-
-            // Keep both storage locations aligned so pages read the same state.
             if (!localStorage.getItem('token')) localStorage.setItem('token', token);
             if (!sessionStorage.getItem('token')) sessionStorage.setItem('token', token);
             if (userJson && !localStorage.getItem('user')) localStorage.setItem('user', userJson);
@@ -661,7 +658,6 @@
             if (getStartedBtn) getStartedBtn.href = '/dashboard-page';
             if (ctaPrimaryBtn) ctaPrimaryBtn.href = '/dashboard-page';
         } catch (e) {
-            // Keep auth state intact if UI rendering fails.
         }
     })();
 </script>

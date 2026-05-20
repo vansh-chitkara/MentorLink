@@ -1,14 +1,5 @@
 const mongoose = require("mongoose");
 
-/**
- * Message Schema
- * Stores chat messages between students and mentors
- * 
- * REAL-TIME FEATURE:
- * - Will be used with Socket.io for real-time communication
- * - Stores message history for persistent conversations
- */
-
 const messageSchema = new mongoose.Schema(
     {
         sender: {

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -64,12 +64,6 @@
     </footer>
 
     <script>
-        /**
-         * Dashboard JavaScript
-         * Handles user data display and navigation
-         */
-
-        // Check authentication on page load
         window.addEventListener("DOMContentLoaded", () => {
             const token = localStorage.getItem("token") || sessionStorage.getItem("token");
             const userJson = localStorage.getItem("user") || sessionStorage.getItem("user");
@@ -99,9 +93,7 @@
             displayUserInfo();
         });
 
-        /**
-         * Display user information on dashboard
-         */
+        
         function displayUserInfo() {
             const userJson = localStorage.getItem("user") || sessionStorage.getItem("user");
             if (!userJson) {
@@ -125,13 +117,9 @@
                 document.getElementById("userInfo").innerHTML = `<p><strong>Profile:</strong> Unable to read profile data right now.</p>`;
                 return;
             }
-            
-            // Update greeting
             const displayName = user.name || "there";
             const role = user.role ? String(user.role).toUpperCase() : "USER";
             document.getElementById("userGreeting").textContent = `Hello, ${displayName}! Signed in as ${role}.`;
-
-            // Display user info
             const userInfoDiv = document.getElementById("userInfo");
             userInfoDiv.innerHTML = `
                 <p><strong>Name:</strong> ${user.name || 'Not available'}</p>
@@ -140,9 +128,7 @@
             `;
         }
 
-        /**
-         * Logout function
-         */
+        
         function logout() {
             if (confirm("Are you sure you want to logout?")) {
                 localStorage.removeItem("token");
@@ -153,10 +139,7 @@
             }
         }
 
-        /**
-         * Make authenticated API call
-         * Usage: apiCall("/api/mentors", "GET")
-         */
+        
         async function apiCall(endpoint, method = "GET", body = null) {
             const token = localStorage.getItem("token");
             

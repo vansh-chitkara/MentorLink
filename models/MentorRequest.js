@@ -1,16 +1,5 @@
 const mongoose = require("mongoose");
 
-/**
- * Mentor Request Schema
- * Stores requests from students to connect with mentors
- * 
- * STATUS TRACKING:
- * - pending: awaiting mentor response
- * - accepted: mentor accepted the request
- * - rejected: mentor declined
- * - cancelled: student cancelled request
- */
-
 const mentorRequestSchema = new mongoose.Schema(
     {
         student: {

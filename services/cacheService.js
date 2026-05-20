@@ -10,7 +10,6 @@ if (process.env.REDIS_URL) {
   });
 
   redisClient.on("error", () => {
-    // Fallback to in-memory cache if Redis is unavailable
     redisClient = null;
   });
 }

@@ -1,9 +1,6 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:wght@400;500;600;700&display=swap');
 
-/**
- * Dashboard CSS
- * Professional styling with Midnight Blue and Mist Gray color scheme
- */
+
 
 * {
   margin: 0;
@@ -17,7 +14,7 @@ body {
   min-height: 100vh;
 }
 
-/* Navbar */
+
 .navbar {
   background: linear-gradient(135deg, #1E3A8A 0%, #1F4ED8 100%);
   color: white;
@@ -84,7 +81,7 @@ body {
   box-shadow: 0 4px 12px rgba(25, 25, 112, 0.3);
 }
 
-/* Main Container */
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -117,7 +114,7 @@ body {
   color: #455A64;
 }
 
-/* Dashboard Content */
+
 .dashboard-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -202,7 +199,7 @@ body {
   box-shadow: 0 4px 12px rgba(25, 25, 112, 0.2);
 }
 
-/* Footer */
+
 .footer {
   background: linear-gradient(135deg, #E5E7EB 0%, #D1D5DB 100%);
   color: #1E3A8A;
@@ -217,7 +214,7 @@ body {
   font-family: "Lora", serif;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .nav-menu {
     gap: 1rem;
@@ -244,7 +241,7 @@ body {
   }
 }
 
-/* Loading and Success Messages */
+
 .message {
   padding: 1rem 1.5rem;
   border-radius: 8px;

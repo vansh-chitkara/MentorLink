@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -264,7 +264,7 @@
     </style>
 </head>
 <body class="premium-ui">
-    <!-- Navigation -->
+    
     <nav>
         <div class="nav-container">
             <div class="logo">
@@ -286,7 +286,7 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    
     <div class="container">
         <h1>About MentorLink</h1>
 
@@ -383,7 +383,7 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    
     <footer>
         <div class="footer-text">
             <strong>&copy; 2026 MentorLink</strong> - Connecting Mentors with Learners Worldwide
@@ -391,7 +391,6 @@
     </footer>
 </body>
 <script>
-    // Normalize navbar auth state across tabs/pages.
     (function () {
         try {
             const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -428,7 +427,6 @@
                 };
             }
         } catch (e) {
-            // Keep auth state intact if UI rendering fails.
         }
     })();
 </script>

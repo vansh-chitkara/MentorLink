@@ -1,17 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-/**
- * User Schema
- * Stores user profiles for both students and mentors
- * 
- * KEY FEATURES:
- * - Password hashing with bcryptjs (10 salt rounds)
- * - Role-based access (student/mentor)
- * - Tracks skills and hourly rates for mentors
- * - Pre-save middleware for automatic password hashing
- */
-
 const userSchema = new mongoose.Schema(
     {
         name: {
@@ -31,7 +20,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: [true, "Please provide a password"],
             minlength: 6,
-            select: false // Don't return password by default in queries
+            select: false 
         },
         role: {
             type: String,
@@ -53,11 +42,11 @@ const userSchema = new mongoose.Schema(
         },
         hourlyRate: {
             type: Number,
-            default: 0 // For mentors
+            default: 0
         },
         experience: {
             type: String,
-            default: "" // Years of experience
+            default: "" 
         },
         rating: {
             type: Number,
@@ -100,16 +89,10 @@ const userSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
-
-// Query performance indexes
 userSchema.index({ role: 1, isActive: 1 });
 userSchema.index({ skills: 1 });
 
-/**
- * PRE-SAVE MIDDLEWARE
- * Automatically hash password before saving to database
- * Only hashes if password is new or modified
- */
+
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {
         return next();
@@ -124,14 +107,7 @@ userSchema.pre("save", async function (next) {
     }
 });
 
-/**
- * INSTANCE METHOD: comparePassword
- * Compares provided password with hashed password in database
- * Used during login for authentication
- * 
- * @param {String} candidatePassword - Password provided by user
- * @returns {Boolean} - True if passwords match, false otherwise
- */
+
 userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };

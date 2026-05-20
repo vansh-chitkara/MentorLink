@@ -1,11 +1,4 @@
-/**
- * SIGNUP PAGE JAVASCRIPT
- * Handles:
- * 1. Toggle between Sign In and Sign Up forms
- * 2. User registration (call to /api/auth/register)
- * 3. User login (call to /api/auth/login)
- * 4. Store JWT token in localStorage
- */
+
 
 const container = document.getElementById("container");
 const registerbtn = document.getElementById("register");
@@ -63,12 +56,7 @@ const applyOAuthErrorBanner = () => {
 
 applyOAuthErrorBanner();
 
-// Do not auto-redirect from /signup.
-// Users may intentionally open this page to switch accounts.
 
-/**
- * Toggle between Sign In and Sign Up panels
- */
 registerbtn.addEventListener("click", () => {
   container.classList.add("active");
 });
@@ -89,10 +77,7 @@ passwordToggles.forEach((toggle) => {
   });
 });
 
-/**
- * Handle User Registration
- * POST /api/auth/register
- */
+
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -117,22 +102,16 @@ registerForm.addEventListener("submit", async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      // Registration successful
       messageDiv.textContent = "✅ Registration successful! Redirecting...";
       messageDiv.classList.add("success");
-
-      // Store token in both scopes to keep all pages in sync.
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       sessionStorage.setItem("token", data.token);
       sessionStorage.setItem("user", JSON.stringify(data.user));
-
-      // Redirect after 2 seconds
       setTimeout(() => {
         window.location.href = "/dashboard-page";
       }, 2000);
     } else {
-      // Registration failed
       messageDiv.textContent = `❌ ${getApiErrorMessage(data, "Unable to register")}`;
       messageDiv.classList.add("error");
     }
@@ -142,10 +121,7 @@ registerForm.addEventListener("submit", async (e) => {
   }
 });
 
-/**
- * Handle User Login
- * POST /api/auth/login
- */
+
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -168,22 +144,16 @@ loginForm.addEventListener("submit", async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      // Login successful
       messageDiv.textContent = "✅ Login successful! Redirecting...";
       messageDiv.classList.add("success");
-
-      // Store token in both scopes to keep all pages in sync.
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       sessionStorage.setItem("token", data.token);
       sessionStorage.setItem("user", JSON.stringify(data.user));
-
-      // Redirect after 2 seconds
       setTimeout(() => {
         window.location.href = "/dashboard-page";
       }, 2000);
     } else {
-      // Login failed
       messageDiv.textContent = `❌ ${getApiErrorMessage(data, "Unable to sign in")}`;
       messageDiv.classList.add("error");
     }
@@ -363,27 +333,18 @@ if (resetPasswordBtn) {
   });
 }
 
-/**
- * Helper: Get token from localStorage
- * Usage: const token = getToken(); (for API calls)
- */
+
 function getToken() {
   return localStorage.getItem("token");
 }
 
-/**
- * Helper: Get user from localStorage
- * Usage: const user = getUser();
- */
+
 function getUser() {
   const userJson = localStorage.getItem("user");
   return userJson ? JSON.parse(userJson) : null;
 }
 
-/**
- * Helper: Logout user
- * Usage: logout(); (removes token and user)
- */
+
 function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
@@ -392,10 +353,7 @@ function logout() {
   window.location.href = "/signup";
 }
 
-/**
- * Check if user is authenticated
- * Redirect to login if token missing
- */
+
 function checkAuth() {
   const token = getToken() || sessionStorage.getItem("token");
   if (!token) {
